@@ -1,7 +1,11 @@
 const myLibrary = [
-    {title: "Darkly Dreaming Dexter", author: "Jeff Lindsay", pages: 133}
+    {title: "Darkly Dreaming Dexter", author: "Jeff Lindsay", pages: 133}, 
+    {title: "The Jordan Rules", author: "Sam Smith", pages: 378} 
 ];
-const container = document.querySelector(".container");
+
+const libraryTable = document.querySelector("#library");
+const tableBody = libraryTable.querySelector("tbody");
+
 
 function Book(title, author, pages) {
     this.title = title;
@@ -11,11 +15,21 @@ function Book(title, author, pages) {
 
 function getAllBooks() {
     myLibrary.forEach(bookObj => {
-        const book = document.createElement("div");
-        book.classList.add("book");
-        book.textContent = `${bookObj.title} by ${bookObj.author}, ${bookObj.pages} pages`;
+        const book = document.createElement("tr");
 
-        container.appendChild(book);
+        const bookTitle = document.createElement("td");
+        bookTitle.textContent = bookObj.title;
+
+        const bookAuthor = document.createElement("td");
+        bookAuthor.textContent = bookObj.author;
+
+        const bookPages = document.createElement("td");
+        bookPages.textContent = bookObj.pages;
+
+        tableBody.appendChild(book);
+        book.appendChild(bookTitle);
+        book.appendChild(bookAuthor);
+        book.appendChild(bookPages);
     });
 }
 
@@ -28,7 +42,6 @@ function addBookToLibrary() {
     myLibrary.push(book);
 }
 
-addBookToLibrary();
 getAllBooks();
 
 
