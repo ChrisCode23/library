@@ -15,7 +15,19 @@
 
     <table id="library">
         <caption>
-            A list of books currently present in the library
+            <dialog>
+                <form>
+                    <p>Enter information about book</p>
+                    <label for="book-title">Title:</label>
+                    <input type="text" name="book-title" id="book-title">
+                    <label for="book-author">Author:</label>
+                    <input type="text" name="book-author" id="book-author">
+                    <label for="book-pages">Pages:</label>
+                    <input type="number" name="book-pages" id="book-pages">
+                    <button id="submit-btn" type="submit">SUBMIT</button>
+                </form>                
+            </dialog>
+            A list of books currently present in the library | <button id="new-book-btn" title="Add new book">NEW BOOK</button>
         </caption>
         <thead>
             <tr>
@@ -28,6 +40,7 @@
             
         </tbody>
     </table>
+    <output></output>
 
 
 
