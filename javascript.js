@@ -36,6 +36,9 @@ function Book(title, author, pages) {
 function getAllBooks() {
     myLibrary.forEach(bookObj => {
         const book = document.createElement("tr");
+        /* Assigns data attribute based on the index position of that book in "myLibrary" array,
+        thus allowing to reference that book object in array when deleting it */
+        book.setAttribute("data-index", myLibrary.indexOf(bookObj));
 
         const bookTitle = document.createElement("td");
         bookTitle.textContent = bookObj.title;
@@ -46,10 +49,27 @@ function getAllBooks() {
         const bookPages = document.createElement("td");
         bookPages.textContent = bookObj.pages;
 
+        const actionBtn = document.createElement("td");
+        const deleteBookBtn = document.createElement("button");
+        deleteBookBtn.setAttribute("id", "delete-book-btn");
+        deleteBookBtn.setAttribute("title", "Remove this book");
+        deleteBookBtn.textContent = "DELETE";
+
+
+        // Deletes book object from array and removes it from the table
+        deleteBookBtn.addEventListener("click", () => {
+            myLibrary.splice(book.dataset.index, 1);
+            book.replaceChildren();
+        })
+
         tableBody.appendChild(book);
+
         book.appendChild(bookTitle);
         book.appendChild(bookAuthor);
         book.appendChild(bookPages);
+        book.appendChild(actionBtn);
+
+        actionBtn.appendChild(deleteBookBtn);
     });
 }
 
@@ -64,10 +84,12 @@ newBookBtn.addEventListener("click", () => {
 // Prevents data to be sent to a server by default when pressing "SUBMIT" button
 submitBtn.addEventListener("click", (event) => {
     event.preventDefault();
+
     // The "input..." variables store the data written by user in the form
     inputBookTitle = bookTitle.value;
     inputBookAuthor = bookAuthor.value;
     inputBookPages = bookPages.value;
+
     dialog.close();
 })
 
@@ -80,7 +102,7 @@ function addBookToLibrary() {
     for (let key in bookObj) {
         if (!bookObj[key]) {
             return;
-        } 
+        }
     }
 
 
@@ -88,6 +110,7 @@ function addBookToLibrary() {
 
     // Adds book and its info as an actual table row
     const book = document.createElement("tr");
+    book.setAttribute("data-index", myLibrary.indexOf(bookObj));
 
     const bookTitle = document.createElement("td");
     bookTitle.textContent = bookObj.title;
@@ -98,12 +121,29 @@ function addBookToLibrary() {
     const bookPages = document.createElement("td");
     bookPages.textContent = bookObj.pages;
 
+    const actionBtn = document.createElement("td");
+    const deleteBookBtn = document.createElement("button");
+    deleteBookBtn.setAttribute("id", "delete-book-btn");
+    deleteBookBtn.setAttribute("title", "Remove this book");
+    deleteBookBtn.textContent = "DELETE";
+
+
+    // Deletes book object from array and removes it from the table
+    deleteBookBtn.addEventListener("click", () => {
+        myLibrary.splice(book.dataset.index, 1);
+        book.replaceChildren();
+    })
+
     tableBody.appendChild(book);
+
     book.appendChild(bookTitle);
     book.appendChild(bookAuthor);
     book.appendChild(bookPages);
-    
-    
+    book.appendChild(actionBtn);
+
+    actionBtn.appendChild(deleteBookBtn);
+
+
 }
 
 
