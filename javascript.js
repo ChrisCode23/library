@@ -10,12 +10,18 @@ const dialog = document.querySelector("dialog");
 const newBookBtn = document.querySelector("#new-book-btn");
 const submitBtn = document.querySelector("#submit-btn");
 
+// Selects book inputs for DOM manipulation
 const bookTitle = document.querySelector("#book-title");
 const bookAuthor = document.querySelector("#book-author");
 const bookPages = document.querySelector("#book-pages");
 
 const libraryTable = document.querySelector("#library");
 const tableBody = libraryTable.querySelector("tbody");
+
+// These store the data input by user in the form and change every time new data is submitted
+let inputBookTitle;
+let inputBookAuthor;
+let inputBookPages;
 
 
 // Constructor for books
@@ -54,21 +60,33 @@ newBookBtn.addEventListener("click", () => {
 });
 
 
+
 // Prevents data to be sent to a server by default when pressing "SUBMIT" button
 submitBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    dialog.close(`${bookTitle.value} ${bookAuthor.value} ${bookPages.value} `); // Sends data up to dialog as "returnValue"
+    // The "input..." variables store the data written by user in the form
+    inputBookTitle = bookTitle.value;
+    inputBookAuthor = bookAuthor.value;
+    inputBookPages = bookPages.value;
+    dialog.close();
 })
 
 
 // New book added by user is inserted in the table
 function addBookToLibrary() {
-    let bookChunks = dialog.returnValue.split(" "); // The "returnValue" is split into an array of input elements
+    let bookObj = new Book(inputBookTitle, inputBookAuthor, inputBookPages); // Data input by user is used to create new book object
 
-    let bookObj = new Book(bookChunks[0], bookChunks[1], bookChunks[2]); // Each book chunk represents a book property
+    // User must enter all form fields, or book isn't added to the table
+    for (let key in bookObj) {
+        if (!bookObj[key]) {
+            return;
+        } 
+    }
+
 
     myLibrary.push(bookObj);
 
+    // Adds book and its info as an actual table row
     const book = document.createElement("tr");
 
     const bookTitle = document.createElement("td");
@@ -84,6 +102,8 @@ function addBookToLibrary() {
     book.appendChild(bookTitle);
     book.appendChild(bookAuthor);
     book.appendChild(bookPages);
+    
+    
 }
 
 
