@@ -1,8 +1,5 @@
 // Stores all books as objects
-const myLibrary = [
-    { title: "Darkly Dreaming Dexter", author: "Jeff Lindsay", pages: 133 },
-    { title: "The Jordan Rules", author: "Sam Smith", pages: 378 }
-];
+const myLibrary = [];
 
 
 const dialog = document.querySelector("dialog");
@@ -150,6 +147,11 @@ function addBookToLibrary() {
 // The book is added to the table upon closing dialog window
 dialog.addEventListener("close", addBookToLibrary);
 
+
+const book1 = new Book("Darkly Dreaming Dexter", "Jeff Lindsay", 133);
+const book2 = new Book("The Jordan Rules", "Sam Smith", 378);
+
+myLibrary.push(book1, book2);
 
 getAllBooks();
 
