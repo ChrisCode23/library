@@ -4,13 +4,15 @@ const myLibrary = [];
 
 const dialog = document.querySelector("dialog");
 
-const newBookBtn = document.querySelector("#new-book-btn");
-const submitBtn = document.querySelector("#submit-btn");
+const newBookBtn = document.querySelector("#newBookBtn");
+const submitBtn = document.querySelector("#submitBtn");
 
 // Selects book inputs for DOM manipulation
-const bookTitle = document.querySelector("#book-title");
-const bookAuthor = document.querySelector("#book-author");
-const bookPages = document.querySelector("#book-pages");
+const bookTitle = document.querySelector("#bookTitle");
+const bookAuthor = document.querySelector("#bookAuthor");
+const bookPages = document.querySelector("#bookPages");
+const bookStatusYes = document.querySelector("#bookStatusYes");
+const bookStatusNo = document.querySelector("#bookStatusNo");
 
 const libraryTable = document.querySelector("#library");
 const tableBody = libraryTable.querySelector("tbody");
@@ -19,13 +21,20 @@ const tableBody = libraryTable.querySelector("tbody");
 let inputBookTitle;
 let inputBookAuthor;
 let inputBookPages;
+let inputBookStatus;
 
 
 // Constructor for books
-function Book(title, author, pages) {
+function Book(title, author, pages, readStatus) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+}
+
+// Sets default value if no user input has occurred
+Book.prototype.setReadStatus = function(inputReadStatus) {
+    inputReadStatus == "Yes" ? this.readStatus = "Read"
+    : this.readStatus = "Not read";
 }
 
 
@@ -46,11 +55,19 @@ function getAllBooks() {
         const bookPages = document.createElement("td");
         bookPages.textContent = bookObj.pages;
 
+        // "setReadStatus" sets each book to "not read yet" by default
+        const bookStatus = document.createElement("td");
+        bookObj.setReadStatus();
+        bookStatus.textContent = bookObj.readStatus;
+
         const actionBtn = document.createElement("td");
+
         const deleteBookBtn = document.createElement("button");
-        deleteBookBtn.setAttribute("id", "delete-book-btn");
+        deleteBookBtn.setAttribute("id", "deleteBookBtn");
         deleteBookBtn.setAttribute("title", "Remove this book");
         deleteBookBtn.textContent = "DELETE";
+        
+
 
 
         // Deletes book object from array and removes it from the table
@@ -64,6 +81,7 @@ function getAllBooks() {
         book.appendChild(bookTitle);
         book.appendChild(bookAuthor);
         book.appendChild(bookPages);
+        book.appendChild(bookStatus);
         book.appendChild(actionBtn);
 
         actionBtn.appendChild(deleteBookBtn);
@@ -82,10 +100,19 @@ newBookBtn.addEventListener("click", () => {
 submitBtn.addEventListener("click", (event) => {
     event.preventDefault();
 
-    // The "input..." variables store the data written by user in the form
+    // The "input..." variables store the data written by user in the form fields
     inputBookTitle = bookTitle.value;
     inputBookAuthor = bookAuthor.value;
     inputBookPages = bookPages.value;
+    
+    // Picks the radio option selected by the user
+    if (bookStatusYes.checked) {
+        inputBookStatus = bookStatusYes.value;
+    }
+    if (bookStatusNo.checked) {
+        inputBookStatus = bookStatusNo.value;
+
+    }
 
     dialog.close();
 })
@@ -118,9 +145,13 @@ function addBookToLibrary() {
     const bookPages = document.createElement("td");
     bookPages.textContent = bookObj.pages;
 
+    const bookStatus = document.createElement("td");
+    bookObj.setReadStatus(inputBookStatus);  // Passes the radio option as parameter to the "Book" prototypal method
+    bookStatus.textContent = bookObj.readStatus;
+
     const actionBtn = document.createElement("td");
     const deleteBookBtn = document.createElement("button");
-    deleteBookBtn.setAttribute("id", "delete-book-btn");
+    deleteBookBtn.setAttribute("id", "deleteBookBtn");
     deleteBookBtn.setAttribute("title", "Remove this book");
     deleteBookBtn.textContent = "DELETE";
 
@@ -136,6 +167,7 @@ function addBookToLibrary() {
     book.appendChild(bookTitle);
     book.appendChild(bookAuthor);
     book.appendChild(bookPages);
+    book.appendChild(bookStatus);
     book.appendChild(actionBtn);
 
     actionBtn.appendChild(deleteBookBtn);
