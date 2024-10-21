@@ -37,10 +37,8 @@ Book.prototype.setReadStatus = function (inputReadStatus) {
         : this.readStatus = "Not read";
 }
 
-
-// Loops through all books in "myLibrary" and displays them as table rows
-function getAllBooks() {
-    myLibrary.forEach(bookObj => {
+function createBookTable(bookObj) {
+    {
         const book = document.createElement("tr");
         /* Assigns data attribute based on the index position of that book in "myLibrary" array,
         thus allowing to reference that book object in array when deleting it */
@@ -55,9 +53,9 @@ function getAllBooks() {
         const bookPages = document.createElement("td");
         bookPages.textContent = bookObj.pages;
 
-        // "setReadStatus" sets each book to "not read yet" by default
+        // Pre-existing books are set by default to "not read"
         const bookStatus = document.createElement("td");
-        bookObj.setReadStatus();
+        bookObj.setReadStatus(inputBookStatus);  // Passes the radio option as parameter to the "Book" prototypal method
         bookStatus.textContent = bookObj.readStatus;
 
         const actionBtn = document.createElement("td");
@@ -112,7 +110,12 @@ function getAllBooks() {
 
         actionBtn.appendChild(changeStatusBtn);
         actionBtn.appendChild(deleteBookBtn);
-    });
+    }
+}
+
+// Loops through all books in "myLibrary" and displays them as table rows
+function getAllBooks() {
+    myLibrary.forEach(bookObj => createBookTable(bookObj));
 }
 
 
@@ -156,78 +159,9 @@ function addBookToLibrary() {
         }
     }
 
-
     myLibrary.push(bookObj);
 
-    // Adds book and its info as an actual table row
-    const book = document.createElement("tr");
-    book.setAttribute("data-index", myLibrary.indexOf(bookObj));
-
-    const bookTitle = document.createElement("td");
-    bookTitle.textContent = bookObj.title;
-
-    const bookAuthor = document.createElement("td");
-    bookAuthor.textContent = bookObj.author;
-
-    const bookPages = document.createElement("td");
-    bookPages.textContent = bookObj.pages;
-
-    const bookStatus = document.createElement("td");
-    bookObj.setReadStatus(inputBookStatus);  // Passes the radio option as parameter to the "Book" prototypal method
-    bookStatus.textContent = bookObj.readStatus;
-
-    const actionBtn = document.createElement("td");
-    actionBtn.classList.add("actionBtn");
-
-    const changeStatusBtn = document.createElement("button");
-    changeStatusBtn.setAttribute("id", "changeStatusBtn");
-    changeStatusBtn.setAttribute("title", "Bookmark as read if you have, or not read if you haven't");
-    changeStatusBtn.textContent = "BOOKMARK";
-
-    const deleteBookBtn = document.createElement("button");
-    deleteBookBtn.setAttribute("id", "deleteBookBtn");
-    deleteBookBtn.setAttribute("title", "Remove this book");
-    deleteBookBtn.textContent = "DELETE";
-
-    // Replaces the current book status with the other when pressing button
-    changeStatusBtn.addEventListener("click", () => {
-        if (bookStatus.textContent == "Not read") {
-            book.removeChild(bookStatus);
-            book.removeChild(actionBtn);
-            inputBookStatus = "Yes";
-            bookObj.setReadStatus(inputBookStatus);
-            bookStatus.textContent = bookObj.readStatus;
-            book.appendChild(bookStatus);
-            book.appendChild(actionBtn)
-        } else if (bookStatus.textContent == "Read") {
-            book.removeChild(bookStatus);
-            book.removeChild(actionBtn);
-            inputBookStatus = "No";
-            bookObj.setReadStatus(inputBookStatus);
-            bookStatus.textContent = bookObj.readStatus;
-            book.appendChild(bookStatus);
-            book.appendChild(actionBtn)
-        }
-    })
-
-    // Deletes book object from array and removes it from the table
-    deleteBookBtn.addEventListener("click", () => {
-        myLibrary.splice(book.dataset.index, 1);
-        book.replaceChildren();
-    })
-
-    tableBody.appendChild(book);
-
-    book.appendChild(bookTitle);
-    book.appendChild(bookAuthor);
-    book.appendChild(bookPages);
-    book.appendChild(bookStatus);
-    book.appendChild(actionBtn);
-
-    actionBtn.appendChild(changeStatusBtn);
-    actionBtn.appendChild(deleteBookBtn);
-
-
+    createBookTable(bookObj);
 }
 
 
