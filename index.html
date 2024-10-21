@@ -15,27 +15,35 @@
 
 <body>
 
-    <h1>Library Books</h1>
+    <h1 class="title">Library Books</h1>
 
     <table id="library">
         <caption>
             <dialog>
-                <form>
                     <p>Enter information about book</p>
-                    <label for="bookTitle">Title:</label>
-                    <input type="text" name="bookTitle" id="bookTitle">
-                    <label for="bookAuthor">Author:</label>
-                    <input type="text" name="bookAuthor" id="bookAuthor">
-                    <label for="bookPages">Pages:</label>
-                    <input type="number" name="bookPages" id="bookPages">
-                    <fieldset>
+                <form>
+                    <div class="inputRow">
+                        <label for="bookTitle">Title:</label>
+                        <input type="text" name="bookTitle" id="bookTitle">
+                    </div>
+                    <div class="inputRow">
+                        <label for="bookAuthor">Author:</label>
+                        <input type="text" name="bookAuthor" id="bookAuthor">
+                    </div>
+                    <div class="inputRow">
+                        <label for="bookPages">Pages:</label>
+                        <input type="number" name="bookPages" id="bookPages">
+                    </div>
+                    <fieldset class="inputRow">
                         <legend>Did you read it?</legend>
                         <input type="radio" name="bookStatus" id="bookStatusYes" value="Yes" checked>
                         <label for="bookStatusYes">Yes</label>
                         <input type="radio" name="bookStatus" id="bookStatusNo" value="No">
                         <label for="bookStatusNo">No</label>
                     </fieldset>
-                    <button id="submitBtn" type="submit">SUBMIT</button>
+                    <div class="inputRow button">
+                        <button id="submitBtn" type="submit">SUBMIT</button>
+                    </div>
                 </form>
             </dialog>
             A list of books currently present in the library
