@@ -32,9 +32,9 @@ function Book(title, author, pages, readStatus) {
 }
 
 // Sets default value if no user input has occurred
-Book.prototype.setReadStatus = function(inputReadStatus) {
+Book.prototype.setReadStatus = function (inputReadStatus) {
     inputReadStatus == "Yes" ? this.readStatus = "Read"
-    : this.readStatus = "Not read";
+        : this.readStatus = "Not read";
 }
 
 
@@ -61,13 +61,17 @@ function getAllBooks() {
         bookStatus.textContent = bookObj.readStatus;
 
         const actionBtn = document.createElement("td");
+        actionBtn.classList.add("actionBtn");
+
+        const changeStatusBtn = document.createElement("button");
+        changeStatusBtn.setAttribute("id", "changeStatusBtn");
+        changeStatusBtn.setAttribute("title", "Bookmark as read if you have, or not read if you haven't");
+        changeStatusBtn.textContent = "BOOKMARK";
 
         const deleteBookBtn = document.createElement("button");
         deleteBookBtn.setAttribute("id", "deleteBookBtn");
         deleteBookBtn.setAttribute("title", "Remove this book");
         deleteBookBtn.textContent = "DELETE";
-        
-
 
 
         // Deletes book object from array and removes it from the table
@@ -75,6 +79,28 @@ function getAllBooks() {
             myLibrary.splice(book.dataset.index, 1);
             book.replaceChildren();
         })
+
+        // Replaces the current book status with the other when pressing button
+        changeStatusBtn.addEventListener("click", () => {
+            if (bookStatus.textContent == "Not read") {
+                book.removeChild(bookStatus);
+                book.removeChild(actionBtn);
+                inputBookStatus = "Yes";
+                bookObj.setReadStatus(inputBookStatus);
+                bookStatus.textContent = bookObj.readStatus;
+                book.appendChild(bookStatus);
+                book.appendChild(actionBtn)
+            } else if (bookStatus.textContent == "Read") {
+                book.removeChild(bookStatus);
+                book.removeChild(actionBtn);
+                inputBookStatus = "No";
+                bookObj.setReadStatus(inputBookStatus);
+                bookStatus.textContent = bookObj.readStatus;
+                book.appendChild(bookStatus);
+                book.appendChild(actionBtn)
+            }
+        })
+
 
         tableBody.appendChild(book);
 
@@ -84,6 +110,7 @@ function getAllBooks() {
         book.appendChild(bookStatus);
         book.appendChild(actionBtn);
 
+        actionBtn.appendChild(changeStatusBtn);
         actionBtn.appendChild(deleteBookBtn);
     });
 }
@@ -104,7 +131,7 @@ submitBtn.addEventListener("click", (event) => {
     inputBookTitle = bookTitle.value;
     inputBookAuthor = bookAuthor.value;
     inputBookPages = bookPages.value;
-    
+
     // Picks the radio option selected by the user
     if (bookStatusYes.checked) {
         inputBookStatus = bookStatusYes.value;
@@ -150,11 +177,38 @@ function addBookToLibrary() {
     bookStatus.textContent = bookObj.readStatus;
 
     const actionBtn = document.createElement("td");
+    actionBtn.classList.add("actionBtn");
+
+    const changeStatusBtn = document.createElement("button");
+    changeStatusBtn.setAttribute("id", "changeStatusBtn");
+    changeStatusBtn.setAttribute("title", "Bookmark as read if you have, or not read if you haven't");
+    changeStatusBtn.textContent = "BOOKMARK";
+
     const deleteBookBtn = document.createElement("button");
     deleteBookBtn.setAttribute("id", "deleteBookBtn");
     deleteBookBtn.setAttribute("title", "Remove this book");
     deleteBookBtn.textContent = "DELETE";
 
+    // Replaces the current book status with the other when pressing button
+    changeStatusBtn.addEventListener("click", () => {
+        if (bookStatus.textContent == "Not read") {
+            book.removeChild(bookStatus);
+            book.removeChild(actionBtn);
+            inputBookStatus = "Yes";
+            bookObj.setReadStatus(inputBookStatus);
+            bookStatus.textContent = bookObj.readStatus;
+            book.appendChild(bookStatus);
+            book.appendChild(actionBtn)
+        } else if (bookStatus.textContent == "Read") {
+            book.removeChild(bookStatus);
+            book.removeChild(actionBtn);
+            inputBookStatus = "No";
+            bookObj.setReadStatus(inputBookStatus);
+            bookStatus.textContent = bookObj.readStatus;
+            book.appendChild(bookStatus);
+            book.appendChild(actionBtn)
+        }
+    })
 
     // Deletes book object from array and removes it from the table
     deleteBookBtn.addEventListener("click", () => {
@@ -170,6 +224,7 @@ function addBookToLibrary() {
     book.appendChild(bookStatus);
     book.appendChild(actionBtn);
 
+    actionBtn.appendChild(changeStatusBtn);
     actionBtn.appendChild(deleteBookBtn);
 
 

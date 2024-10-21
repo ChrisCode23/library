@@ -44,6 +44,11 @@
     border: 1px solid #ccc;
   }
 
+
+  .actionBtn button {
+    margin-right: 24px;
+  }
+
   tfoot th,
   tfoot td{
     border: 1px solid transparent;
@@ -62,6 +67,7 @@
     padding: 4px 24px;
     font-weight: bold;
     font-size: 0.9rem;
+    cursor: pointer;
   }
 
   #newBookBtn {
