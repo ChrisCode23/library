@@ -21,7 +21,7 @@ const tableBody = libraryTable.querySelector("tbody");
 let inputBookTitle;
 let inputBookAuthor;
 let inputBookPages;
-let inputBookStatus;
+let isRead;
 
 
 // Constructor for books
@@ -32,8 +32,8 @@ function Book(title, author, pages, readStatus) {
 }
 
 // Sets default value if no user input has occurred
-Book.prototype.setReadStatus = function (inputReadStatus) {
-    inputReadStatus == "Yes" ? this.readStatus = "Read"
+Book.prototype.setReadStatus = function (isRead) {
+    isRead === true ? this.readStatus = "Read"
         : this.readStatus = "Not read";
 }
 
@@ -55,7 +55,7 @@ function createBookTable(bookObj) {
 
         // Pre-existing books are set by default to "not read"
         const bookStatus = document.createElement("td");
-        bookObj.setReadStatus(inputBookStatus);  // Passes the radio option as parameter to the "Book" prototypal method
+        bookObj.setReadStatus(isRead);  // Passes the radio option as parameter to the "Book" prototypal method
         bookStatus.textContent = bookObj.readStatus;
 
         const actionBtn = document.createElement("td");
@@ -83,16 +83,16 @@ function createBookTable(bookObj) {
             if (bookStatus.textContent == "Not read") {
                 book.removeChild(bookStatus);
                 book.removeChild(actionBtn);
-                inputBookStatus = "Yes";
-                bookObj.setReadStatus(inputBookStatus);
+                isRead = true;
+                bookObj.setReadStatus(isRead);
                 bookStatus.textContent = bookObj.readStatus;
                 book.appendChild(bookStatus);
                 book.appendChild(actionBtn)
             } else if (bookStatus.textContent == "Read") {
                 book.removeChild(bookStatus);
                 book.removeChild(actionBtn);
-                inputBookStatus = "No";
-                bookObj.setReadStatus(inputBookStatus);
+                isRead = false;
+                bookObj.setReadStatus(isRead);
                 bookStatus.textContent = bookObj.readStatus;
                 book.appendChild(bookStatus);
                 book.appendChild(actionBtn)
@@ -137,10 +137,10 @@ submitBtn.addEventListener("click", (event) => {
 
     // Picks the radio option selected by the user
     if (bookStatusYes.checked) {
-        inputBookStatus = bookStatusYes.value;
+        isRead = true;;
     }
     if (bookStatusNo.checked) {
-        inputBookStatus = bookStatusNo.value;
+        isRead = false;
 
     }
 
